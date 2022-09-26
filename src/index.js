@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import Places from './Components/Book/Places/places';
 import * as serviceWorker from './serviceWorker';
+import App from './App';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Places />
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );

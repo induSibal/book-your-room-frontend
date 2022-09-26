@@ -38,8 +38,6 @@ const [places, setPlaces]=useState("");
         );
     }
     
-    
-
     return <div className={classes.body}>
         <h1 className={classes.heading}>Please Select your Hotel room</h1>
         { displayPlaces()}
