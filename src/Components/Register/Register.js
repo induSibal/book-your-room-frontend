@@ -53,10 +53,10 @@ function Register(){
             .then(function (response) {
                 console.log('this is inside axios request'+response);
                 alert(emailAddress + " have been Registerd successfully");
-                navigate('/');
+                navigate('/Login');
             })
             .catch(function (error) {
-                console.log('this is inside axios error'+error);
+                console.log('this is inside axios error' + error);
             });
         }
         else

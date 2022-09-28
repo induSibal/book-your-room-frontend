@@ -1,50 +1,100 @@
 import React,{useState} from "react";
 import {Link} from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+
+import axios from "axios";
+
+import Places from '../Places/places';
 
 function SearchForm(){
 
-    const [emailAddress, setEmailAddress]=useState();
-    const [password, setPassword]=useState();
-
-
-    function setEmailAddressValue(event){
-        const email =event.target.value;
-        setEmailAddress(email);
+    const [startDate, setStartDate]=useState('');
+    const [endDate, setEndDate]=useState('');
+    const [maxPrice, setMaxPrice]=useState('');
+    const [maxGuests, setMaxGuests]=useState('');
+    const [availableListings, setAvailableListings]=useState('');
+    
+    function setStartDateValue(event){
+        const date =event.target.value;
+        setStartDate(date);
     }
 
-    function setPasswordValue(event){
-        const pass =event.target.value;
-        setPassword(pass);
+    function setEndDateValue(event){
+        const date =event.target.value;
+        setEndDate(date);
     }
 
-    const handleSubmit=(event)=>{
+    function setMaxPriceValue(event){
+        const price =event.target.value;
+        setMaxPrice(price);
+    }
+
+    function setMaxGuestsValue(event){
+        const guest =event.target.value;
+        setMaxGuests(guest);
+    }
+
+    function handleSearch(event){
         event.preventDefault();
+        let config = {
+            headers: {
+              "Content-Type": "application/json",
+              'Access-Control-Allow-Origin': '*',
+              }
+            }
+        const request= {
+            startDate: startDate,
+            endDate: endDate,
+            maxPrice: maxPrice,
+            maxGuests: maxGuests
+          }
+        axios.post('http://localhost:3000/getAvailableListings', request, config)
+        .then(function (response) {
+            console.log('this is inside axios request '+response.data.data);
+            console.log(response.data);
+            setAvailableListings(response.data)
+        })
+        .catch(function (error) {
+            console.log('this is inside axios error' + error);
+        });
     }
 
-    return (
-            <form>
-                <div className="form-outline mb-4">search form
-                </div>
-            </form>
-
-
-        // <div>
-        // <form onsubmit={handleSubmit}>
-        //     <label for="email1"> Email </label>
-        //     <br/>
-        //      <input placeholder="Enter your email Id" type="email" value={emailAddress} onChange={setEmailAddressValue} id="email1" />
-        //     <label for="pwd1"> Password </label>
-        //     <br/>
-        //     <input placeholder="Enter your password"  type="password" value={password} onChange={setPasswordValue} id="pwd1"  />
-        //     <br/>
-        //     <button type="submit" >Login</button>
-        // </form>
-        //     <div>
-        //         <h3> Don't have an account? <Link to="/Register"> Register Now </Link> </h3>
-        //     </div>
-        // </div>
-    )
-};
+    return(
+        <div>
+            <Form>
+                <Row>
+                    <Col>
+                        <Form.Label>Start Date</Form.Label>
+                        <Form.Control type="date" placeholder="Start Date" onChange={setStartDateValue} />
+                    </Col>
+                    <Col>
+                        <Form.Label>End Date</Form.Label>
+                        <Form.Control type="date" placeholder="End Date" onChange={setEndDateValue} />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <Form.Label>Select the maximum price</Form.Label>
+                        <Form.Control type="Price" placeholder="Maximum Price" onChange={setMaxPriceValue}  />
+                    </Col>
+                    <Col>
+                        <Form.Label>Select the number of Guests</Form.Label>
+                        <Form.Control type="Price" placeholder="Number of Guests" onChange={setMaxGuestsValue}  />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <br/>
+                        <Button variant="primary" type="Search" onClick={handleSearch}>Search</Button> 
+                    </Col>
+                </Row>
+            </Form>
+                <Places availableListings={availableListings} />
+            </div>
+    )};
 
 
 export default SearchForm;
