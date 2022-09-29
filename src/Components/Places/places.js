@@ -16,7 +16,6 @@ function displayPlaces(listings) {
             <br/><br/>
         </div>
         )
-
     });
     // );
 }
