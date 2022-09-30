@@ -7,7 +7,7 @@ import Row from 'react-bootstrap/Row';
 
 import axios from "axios";
 
-import Places from '../Places/places';
+import Listings from '../Listings/Listings';
 
 function SearchForm(){
 
@@ -15,7 +15,7 @@ function SearchForm(){
     const [endDate, setEndDate]=useState('');
     const [maxPrice, setMaxPrice]=useState('');
     const [maxGuests, setMaxGuests]=useState('');
-    const [availableListings, setAvailableListings]=useState('');
+    const [ListingsComponent, seListingsComponent]=useState('');
     
     function setStartDateValue(event){
         const date =event.target.value;
@@ -39,23 +39,18 @@ function SearchForm(){
 
     function handleSearch(event){
         event.preventDefault();
-        let config = {
-            headers: {
-              "Content-Type": "application/json",
-              'Access-Control-Allow-Origin': '*',
-              }
-            }
-        const request= {
+        
+        const requestBody= {
             startDate: startDate,
             endDate: endDate,
             maxPrice: maxPrice,
             maxGuests: maxGuests
           }
-        axios.post('http://localhost:3000/getAvailableListings', request, config)
+        axios.post('http://localhost:3000/getAvailableListings', requestBody)
         .then(function (response) {
             console.log('this is inside axios request '+response.data.data);
             console.log(response.data);
-            setAvailableListings(response.data)
+            seListingsComponent(<Listings availableListings={response.data} />)
         })
         .catch(function (error) {
             console.log('this is inside axios error' + error);
@@ -92,7 +87,7 @@ function SearchForm(){
                     </Col>
                 </Row>
             </Form>
-                <Places availableListings={availableListings} />
+                {ListingsComponent}
             </div>
     )};
 

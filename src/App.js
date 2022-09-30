@@ -1,6 +1,5 @@
 import React from 'react';
 import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
-import Places from './Components/Places/places';
 import SearchForm from './Components/SearchForm/SearchForm';
 import Login from './Components/Login/Login';
 import Register from './Components/Register/Register';
@@ -8,7 +7,8 @@ import ProtectedRoutes from './ProtectedRoutes';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
-import AllBookings from './Components/AllBookings/AllBookings';
+import AdminPortal from './Components/AdminPortal/AdminPortal';
+import Listings from './Components/Listings/Listings';
 
 function App() {
   
@@ -41,9 +41,9 @@ function App() {
                     <Route path="/Login" exact element={<Login />} />
                     <Route path="/Register" element={<Register />} />
                     <Route element={<ProtectedRoutes />} >   
-                        <Route path="/Places" element={<Places />} />
+                        <Route path="/Places" element={<Listings />} />
                     </Route>
-                    <Route path="/AllBookings" element={ <AllBookings />} />  
+                    <Route path="/AdminPortal" element={ <AdminPortal />} />  
                     <Route path="/MyBooking" element={ <div>My Booking</div>} />
                     <Route path="*" element={ <div>404 PAGE NOT FOUND</div>} />   
                 </Routes>
