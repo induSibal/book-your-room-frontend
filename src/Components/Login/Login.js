@@ -1,39 +1,56 @@
 import React,{useState} from "react";
 import {Link} from 'react-router-dom';
+import axios from "axios";
+import { useNavigate} from 'react-router-dom';
 
-function Login(){
+function Login(props){
 
-    const [emailAddress, setEmailAddress]=useState();
-    const [password, setPassword]=useState();
-
+    const [emailAddress, setEmailAddress]=useState('');
+    const [password, setPassword]=useState('');
+    const navigate = useNavigate();
 
     function setEmailAddressValue(event){
-        const email =event.target.value;
-        setEmailAddress(email);
+        setEmailAddress(event.target.value);
     }
 
     function setPasswordValue(event){
-        const pass =event.target.value;
-        setPassword(pass);
+        setPassword(event.target.value);
     }
 
     const handleSubmit=(event)=>{
         event.preventDefault();
     }
-
+    function loginUser(){
+        const requestBody= {
+            emailAddress: emailAddress,
+            password: password
+          }
+        axios.post('http://localhost:3000/validateUser', requestBody)
+        .then(function (response) {
+            console.log('this is inside axios request'+response);
+            console.log(response.data);
+            console.log(response.data[0].firstName);
+            if(response.data[0].userId!==null || response.data[0].userId!==''){
+                props.handleAllStates(true, response.data[0].firstName, response.data[0].userId, response.data[0].isAdmin )}
+                navigate('/');
+            })
+        .catch(function (error) {
+            console.log('this is inside axios error' + error);
+        });
+    }
     return (
             <form>
                 <div className="form-outline mb-4">
-                    <label className="form-label" for="email">Email address</label>
-                    <input type="email" id="email" className="form-control" />
+                    <label className="form-label" for="email" >Email address</label>
+                    <input type="email" id="email" className="form-control" value={emailAddress} onChange={setEmailAddressValue}/>
                 </div>
                 <div className="form-outline mb-4">
-                    <label className="form-label" for="Password">Password</label>
-                    <input type="password" id="Password" className="form-control" />
+                    <label className="form-label" for="Password" >Password</label>
+                    <input type="password" id="Password" className="form-control" value={password} onChange={setPasswordValue} />
                 </div>
                 <div className="row mb-4">
                     <div className="col d-flex justify-content-center">
-                        <button type="button" className="btn btn-primary btn-block mb-4">Sign in</button>
+                        <button type="button" className="btn btn-primary btn-block mb-4" onClick={loginUser} >Sign in</button>
                     </div>
                 </div>
                 <div className="text-center">

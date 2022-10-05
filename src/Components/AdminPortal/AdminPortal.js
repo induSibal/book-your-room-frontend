@@ -65,7 +65,7 @@ function getAllBookings(){
   }
 
   function viewListings(){
-    axios.get("http://localhost:3000/viewAllListings")
+    axios.get("http://localhost:3000/getAllListings")
     .then( function (response){
       console.log(response.data)
       setAllListings(response.data)

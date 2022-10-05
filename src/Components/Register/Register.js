@@ -36,20 +36,14 @@ function Register(){
         event.preventDefault();
        
           if(firstName !== '' && lastName !== '' && phone !== '' && emailAddress !== '' && password !== ''){
-            let config = {
-                headers: {
-                  "Content-Type": "application/json",
-                  'Access-Control-Allow-Origin': '*',
-                  }
-                }
-            const request= {
+            const requestBody= {
                 firstName: firstName,
                 lastName: lastName,
                 phone: phone,
                 email: emailAddress,
                 pass: password
               }
-            axios.post('http://localhost:3000/updateUsers', request, config)
+            axios.post('http://localhost:3000/updateUsers', requestBody)
             .then(function (response) {
                 console.log('this is inside axios request'+response);
                 alert(emailAddress + " have been Registerd successfully");
